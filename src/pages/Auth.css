@@ -39,3 +39,10 @@ h1 {
 .login-form button[type="submit"]:hover {
     background-color: #dc00be;
 }
+
+.error {
+    color: red;
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}

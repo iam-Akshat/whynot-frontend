@@ -1,16 +1,36 @@
 import "./Auth.css";
 import { useSignIn } from "../api/signin";
+import { AxiosError } from "axios";
+import { useContext, useState } from "react";
+import { AuthContext, AuthContextType } from "../AuthProvider";
+import { useNavigate } from "react-router-dom";
 
 export default function Signin() {
-  const { isLoading, isError, error, mutate } = useSignIn();
+  const { isLoading, isError, mutate } = useSignIn();
+  const [errorData, setErrorData] = useState<any>(null);
+
+  const authCtx = useContext<AuthContextType>(AuthContext);
+  const navigate = useNavigate();
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const formData = new FormData(e.currentTarget);
-    const data = Object.fromEntries(formData);
-    mutate(data as any);
+    const dataa = Object.fromEntries(formData) as any;
+
+    mutate(dataa, {
+      onError(err) {
+        if (err instanceof AxiosError) {
+          setErrorData(err.response?.data.error || "An error occurred");
+        }
+      },
+      onSuccess(data) {
+        authCtx.login(data.user, data.authToken);
+        navigate("/home");
+      },
+    });
   };
-  console.log(isLoading, isError, error);
+
   return (
     <div
       style={{
@@ -35,7 +55,7 @@ export default function Signin() {
           Password:
           <input type="password" name="password" required />
         </label>
-
+        {isError && <p className="error">{errorData}</p>}
         <button type="submit" disabled={isLoading}>
           Login
         </button>
