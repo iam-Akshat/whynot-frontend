@@ -8,11 +8,16 @@ import { QueryClient, QueryClientProvider } from "react-query";
 
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { AuthProvider, PrivateComponent } from "./AuthProvider.tsx";
+import Signup from "./pages/Signup.tsx";
 const queryClient = new QueryClient();
 const router = createBrowserRouter([
   {
     path: "signin",
     element: <Signin />,
+  },
+  {
+    path: "signup",
+    element: <Signup />
   },
   {
     path: "/",

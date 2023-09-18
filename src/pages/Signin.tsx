@@ -3,7 +3,7 @@ import { useSignIn } from "../api/signin";
 import { AxiosError } from "axios";
 import { useContext, useState } from "react";
 import { AuthContext, AuthContextType } from "../AuthProvider";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Signin() {
   const { isLoading, isError, mutate } = useSignIn();
@@ -60,6 +60,11 @@ export default function Signin() {
           Login
         </button>
       </form>
+      <p style={{
+        textAlign: "center",
+      }}>
+        Don't have an account? <Link to="/signup">Sign up</Link>
+      </p>
     </div>
   );
 }
